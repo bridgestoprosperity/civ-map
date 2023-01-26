@@ -1,29 +1,154 @@
-// // add a bootstrap button to the dom
-// var crazyname = document.createElement('button');
-// crazyname.className = 'btn btn-secondary';
-// crazyname.innerHTML = 'Click me';
-// document.body.appendChild(crazyname);
+// FUNCTIONS
+function updateVisibilty(hide, show) {
+  for (l in hide) {
+    map.setLayoutProperty(hide[l], "visibility", "none");
+  }
+  for (l in show) {
+    map.setLayoutProperty(show[l], "visibility", "visible");
+  }
+}
 
-// // link button to click
-// crazyname.addEventListener('click', function() {
-//   alert('You clicked me!');
-// });
+function updateInteractive(headerString, addString) {
+  for (l in showList) {
+    map.on("mousemove", showList[l], (e) => {
+      map.getCanvas().style.cursor = "pointer";
+      if (e.features.length > 0) {
+        console.log(showList[l]);
+        if (hoveredStateId !== null) {
+          map.setFeatureState({ source: "civ-assesment", sourceLayer: "civ-assessments-v2-4b6mhv", id: hoveredStateId }, { hover: false });
+        }
+        if (headerString !== false) {
+          document.getElementById("map-value").innerHTML = e.features[0]._vectorTileFeature.properties[headerString] + addString;
+        }
+        console.log(e.features[0]._vectorTileFeature.properties[headerString]);
+        map.setFeatureState({ source: "civ-assesment", sourceLayer: "civ-assessments-v2-4b6mhv", id: hoveredStateId }, { hover: true });
+      }
+    });
+    map.on("mouseleave", showList[l], () => {
+      map.getCanvas().style.cursor = "";
+      document.getElementById("map-value").innerHTML = "";
+      if (hoveredStateId !== null) {
+        map.setFeatureState({ source: "civ-assesment", sourceLayer: "civ-assessments-v2-4b6mhv", id: hoveredStateId }, { hover: false });
+        console.log("left");
+      }
+      hoveredStateId = null;
+    });
+  }
+}
+// PLACEHOLDER
+idList = ["optionsRadios1", "optionsRadios2", "optionsRadios3", "optionsRadios4", "optionsRadios5", "optionsRadios6", "optionsRadios7", "optionsRadios8", "civ-button", "sp-button", "gbk-button", "switch1", "switch2", "switch3", "map"];
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiaGlnaGVzdHJvYWQiLCJhIjoiY2w5bjYzdXlyMDNyOTNycDh4YnB1dWV5eiJ9.vhIIq0L5So522RkERq7MNQ';
-let toggleOff = ['contour-line', 'contour-label'];
-let toggleOn = [];
-const map = new mapboxgl.Map({
-container: 'map', // container ID
-// Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-style: 'mapbox://styles/highestroad/cld5bfitu000301p96dc9i99q', // style URL
-center: [-5.5471, 7.5399], // starting position [lng, lat]
-zoom: 9, // starting zoom
+// Buttons
+document.getElementById("civ-button").addEventListener("click", () => {
+  map.flyTo({
+    center: [-7.014, 7.426],
+    zoom: [6.37],
+    essential: true,
+  });
+});
+document.getElementById("sp-button").addEventListener("click", () => {
+  map.flyTo({
+    center: [-7.3104, 5.0183],
+    zoom: [8.74],
+    essential: true,
+  });
+});
+document.getElementById("gbk-button").addEventListener("click", () => {
+  map.flyTo({
+    center: [-5.4848, 7.6856],
+    zoom: [9.0],
+    essential: true,
+  });
 });
 
-// on map load make contour-line layer not visible
-map.on('load', function() {
-    // for item in toggleLayers
-    for (let i = 0; i < toggleOff.length; i++) {
-        map.setLayoutProperty(toggleOff[i], 'visibility', 'none');
-    }
+// RADIOS
+
+document.getElementById("optionsRadios1").addEventListener("click", () => {
+  showList = ["site-pins", "site-dots"];
+  hideList = ["days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+  updateVisibilty(hideList, showList);
+  updateInteractive(false, false);
+  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #2284aa; font-family: Monaco" >Bridge Site</h4>`;
+});
+document.getElementById("optionsRadios2").addEventListener("click", () => {
+  showList = ["days-flooded-label", "days-flooded"];
+  hideList = ["site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+  updateVisibilty(hideList, showList);
+  updateInteractive("Days per year river is flooded", " days");
+  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #3670ec; font-family: Monaco" >Days Flooded</h4>`;
+});
+document.getElementById("optionsRadios3").addEventListener("click", () => {
+  showList = ["river-width-label", "river-width"];
+  hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label"];
+  updateVisibilty(hideList, showList);
+  updateInteractive("Width of River During Flooding (m)", " meters");
+  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #87b5b2; font-family: Monaco" >Flooded River Width</h4>`;
+});
+document.getElementById("optionsRadios4").addEventListener("click", () => {
+  showList = ["mortality", "mortality-label"];
+  hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "river-width-label", "river-width"];
+  updateVisibilty(hideList, showList);
+  updateInteractive("River crossing deaths in last 3 years", " deaths");
+  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #ac2b25; font-family: Monaco" >Reported Deaths</h4>`;
+});
+document.getElementById("optionsRadios5").addEventListener("click", () => {
+  showList = ["healthcare-block", "healthcare-block-pin"];
+  hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+  updateVisibilty(hideList, showList);
+  updateInteractive(false, false);
+  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #eb5c52; font-family: Monaco" >Site Blocking Healthcare Access</h4>`;
+});
+document.getElementById("optionsRadios6").addEventListener("click", () => {
+  showList = ["education-block", "education-block-pin"];
+  hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+  updateVisibilty(hideList, showList);
+  updateInteractive(false, false);
+  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #e29536; font-family: Monaco" >Blocking Education</h4>`;
+});
+
+// FILTERS
+// when switch1 is checked print hello world
+document.getElementById("switch1").addEventListener("click", () => {
+  if (document.getElementById("switch1").checked) {
+    updateVisibilty(null, ["gbk-village-radius-fill", "sp-village-radius-fill", "gbk-village-radius-line", "sp-village-radius-line"]);
+  } else {
+    updateVisibilty(["gbk-village-radius-fill", "sp-village-radius-fill", "gbk-village-radius-line", "sp-village-radius-line"], null);
+  }
+});
+
+// BASIC MAPBOX STUFF
+mapboxgl.accessToken = "pk.eyJ1IjoiaGlnaGVzdHJvYWQiLCJhIjoiY2w5bjYzdXlyMDNyOTNycDh4YnB1dWV5eiJ9.vhIIq0L5So522RkERq7MNQ";
+// let toggleOff = ['contour-line', 'contour-label'];
+// let toggleOn = [];
+
+const map = new mapboxgl.Map({
+  container: "map", // container ID
+  // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+  style: "mapbox://styles/highestroad/cldcajdxm000201qe1r6nt7j2", // style URL
+  center: [-7.014, 7.426], // starting position [lng, lat]
+  zoom: 6.37, // starting zoom
+});
+
+// VARIABLES
+let villageRadiusLayers = ["sp-vil-radius-line", "gbk-vil-radius-line", "sp-vil-radius-fill ", "gbk-vil-radius-fill", "sp-vil-radius-line-shadow", "gbk-vil-radius-line-shadow"];
+
+let glowColor = "hsl(78, 83%, 69%)";
+let glowColorLight = "hsl(78, 85%, 84%)";
+let hoveredStateId = null;
+var showList = ["site-pins", "site-dots"];
+updateInteractive();
+
+// ON LOAD
+map.on("load", function () {
+  // ADDING SOURCES
+  map.addSource("sites-source", {
+    type: "geojson",
+    data: "../data/civ-assessment-v1.geojson",
+  });
+  map.addSource("civ-assesment", {
+    type: "vector",
+    url: "mapbox://highestroad.6chlwg08",
+  });
+
+  //   HOVER STUFF
 });

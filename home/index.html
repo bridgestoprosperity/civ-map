@@ -26,6 +26,17 @@
         <div class="card secondary mb-3" style="max-width: 100%; opacity: 0.9;">
           <div class="card-header">Côte d'Ivoire Bridge Need Assessment</div>
           <div class="card-body">
+            <h4 class="card-title">Navigate To</h4>
+            <form>
+              <fieldset class="form-group">
+                <div class="text-center">
+                  <button type="button" class="btn btn-primary" id="civ-button">Côte d'Ivoire</button>
+                  <button type="button" class="btn btn-primary" id="sp-button">San-Pédro</button>
+                  <button type="button" class="btn btn-primary" id="gbk-button">Gbêkê</button>
+                </div>
+              </fieldset>
+            </form>
+            <hr />
             <h4 class="card-title">Bridge Site Visualization</h4>
             <form>
               <fieldset class="form-group">
@@ -55,11 +66,11 @@
                   <label class="form-check-label" for="optionsRadios6"> Sites preventing access to education </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios7" value="option7" />
+                  <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios7" value="option7" disabled/>
                   <label class="form-check-label" for="optionsRadios7"> Sites requiring vehicular bridge </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios8" value="option8" />
+                  <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios8" value="option8" disabled/>
                   <label class="form-check-label" for="optionsRadios8"> Sites within 5km of host village </label>
                 </div>
                 <!-- <div class="form-check disabled">
@@ -70,28 +81,20 @@
               <!-- insert horizontal line -->
               <hr />
 
-              <h4 class="card-title">Navigation</h4>
-              <form>
-                <fieldset class="form-group">
-                  <div class="text-center">
-                    <button type="button" class="btn btn-primary">Côte d'Ivoire</button>
-                    <button type="button" class="btn btn-primary">San-Pédro</button>
-                    <button type="button" class="btn btn-primary">Gbêkê</button>
-                  </div>
-                </fieldset>
-              </form>
-              <hr />
               <h4 class="card-title">Map Controls</h4>
               <form>
                 <fieldset class="form-group">
                   <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="switch1" checked />
+                    <input class="form-check-input" type="checkbox" id="switch1" />
                     <label class="form-check-label" for="switch1">Show host village areas</label>
                   </div>
                   <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="switch2" />
-                    <label class="form-check-label" for="switch2">Filter by sites with reported mortalities</label>
-                    
+                    <input class="form-check-input" type="checkbox" id="switch2" checked />
+                    <label class="form-check-label" for="switch2">Show sites with vehicular bridge requests</label>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="switch3" />
+                    <label class="form-check-label" for="switch3">Filter by sites with reported mortalities</label>
                   </div>
                   <!-- <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
@@ -107,11 +110,13 @@
             <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
           </div>
         </div>
-        <div class="card border-secondary mb-3" style="max-width: 100%">
+        <div class="card border-secondary mb-3" style="max-width: 100%; height: 150px">
           <!-- <div class="card-header">Legend</div> -->
-          <div class="card-body">
-            <h4 class="card-title">Map Legend</h4>
-            <p class="card-text">explainer here</p>
+          <div class="card-body text-center" id="legend-card">
+            <h4 id="map-legend"></h4>
+            <h1 id="map-value"></h1>
+            <!-- <h4 class="card-title">Map Legend</h4>
+            <p class="card-text">explainer here</p> -->
           </div>
         </div>
         <!-- <div class="menu">
