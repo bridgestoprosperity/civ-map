@@ -1,4 +1,9 @@
 // FUNCTIONS
+function queryFeatures(feature) {
+  var features = map.queryRenderedFeatures({ layers: [feature] });
+  console.log(features)
+}
+
 function updateVisibilty(hide, show) {
   for (l in hide) {
     map.setLayoutProperty(hide[l], "visibility", "none");
@@ -8,22 +13,29 @@ function updateVisibilty(hide, show) {
   }
 }
 
+
 function updateInteractive(headerString, addString) {
   for (l in showList) {
     map.on("mousemove", showList[l], (e) => {
       map.getCanvas().style.cursor = "pointer";
       if (e.features.length > 0) {
-        console.log(showList[l]);
+        // console.log(showList[l]);
         if (hoveredStateId !== null) {
           map.setFeatureState({ source: "civ-assesment", sourceLayer: "civ-assessments-v2-4b6mhv", id: hoveredStateId }, { hover: false });
         }
         if (headerString !== false) {
           document.getElementById("map-value").innerHTML = e.features[0]._vectorTileFeature.properties[headerString] + addString;
         }
-        console.log(e.features[0]._vectorTileFeature.properties[headerString]);
+        // console.log(e.features[0]._vectorTileFeature.properties[headerString]);
         map.setFeatureState({ source: "civ-assesment", sourceLayer: "civ-assessments-v2-4b6mhv", id: hoveredStateId }, { hover: true });
-      }
+      };
+
     });
+    map.on("click", showList[l], () => {
+      console.log("clicked");
+
+    });
+
     map.on("mouseleave", showList[l], () => {
       map.getCanvas().style.cursor = "";
       document.getElementById("map-value").innerHTML = "";
@@ -34,7 +46,7 @@ function updateInteractive(headerString, addString) {
       hoveredStateId = null;
     });
   }
-}
+};
 // PLACEHOLDER
 idList = ["optionsRadios1", "optionsRadios2", "optionsRadios3", "optionsRadios4", "optionsRadios5", "optionsRadios6", "optionsRadios7", "optionsRadios8", "civ-button", "sp-button", "gbk-button", "switch1", "switch2", "switch3", "map"];
 
@@ -127,6 +139,7 @@ const map = new mapboxgl.Map({
   style: "mapbox://styles/highestroad/cldcajdxm000201qe1r6nt7j2", // style URL
   center: [-7.014, 7.426], // starting position [lng, lat]
   zoom: 6.37, // starting zoom
+  minZoom: 6,
 });
 
 // VARIABLES
@@ -140,15 +153,15 @@ updateInteractive();
 
 // ON LOAD
 map.on("load", function () {
+  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #2284aa; font-family: Monaco" >Bridge Site</h4>`;
   // ADDING SOURCES
   map.addSource("sites-source", {
     type: "geojson",
-    data: "../data/civ-assessment-v1.geojson",
+    data: "./data/civ-assessment-v1.geojson",
   });
   map.addSource("civ-assesment", {
     type: "vector",
     url: "mapbox://highestroad.6chlwg08",
   });
-
   //   HOVER STUFF
 });
