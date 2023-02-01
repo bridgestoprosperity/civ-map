@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
     <!-- bootswatch -->
-    <link rel="stylesheet" href="https://bootswatch.com/5/lumen/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css" />
     <!-- jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- mapbox -->
@@ -23,18 +23,17 @@
     <!-- site note updating -->
   </head>
   <body>
-    <body>
-      <div class="sidebar">
-        <div class="card secondary mb-3 shadow-lg" style="max-width: 100%; opacity: 0.9">
+      <div class="sidebar" style="overflow-y:scroll; max-height: 100%;">
+        <div class="card secondary mb-3 shadow-sm" style="max-width: 100%; opacity: 0.9">
           <div class="card-header fw-bold">Côte d'Ivoire Bridge Need Assessment</div>
           <div class="card-body">
             <h4 class="card-title">Navigate To</h4>
             <form class="">
               <fieldset class="form-group">
                 <div class="text-center">
-                  <button type="button" class="px-1 btn btn-secondary fw-normal shadow-sm" id="civ-button">Côte d'Ivoire</button>
-                  <button type="button" class="mx-2 px-1 btn btn-secondary fw-normal shadow-sm" id="sp-button">San-Pédro</button>
-                  <button type="button" class="px-1 btn btn-secondary fw-normal shadow-sm" id="gbk-button">Gbêkê</button>
+                  <button type="button" class="px-1 btn btn-outline-primary fw-normal shadow-sm" id="civ-button">Côte d'Ivoire</button>
+                  <button type="button" class="mx-2 px-1 btn btn-outline-primary fw-normal shadow-sm" id="sp-button">San-Pédro</button>
+                  <button type="button" class="px-1 btn btn-outline-primary fw-normal shadow-sm" id="gbk-button">Gbêkê</button>
                 </div>
               </fieldset>
             </form>
@@ -112,75 +111,85 @@
             <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
           </div>
         </div>
-        <div class="card border-secondary mb-3" style="width: 400">
-          <!-- <div class="card-header">Header</div> -->
-          <div class="card-body">
-            <h4 class="card-title text-center">Legend</h4>
-            <!-- split this into two sections side by side -->
-            <div class="container">
-              <div class="row">
-                <div class="col-3">
-                  <img src="./img/site-pin.svg" alt="legend" style="height: 20px" />
-                </div>
-                <div class="col-6">
-                  <p class="card-text">All Sites</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-3">
-                  <img class="card-text" src="./img/daysflooded.svg" alt="legend" style="height: 20px" />
-                </div>
-                <div class="col-6">
-                  <p class="card-text">Days Flooded</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-3">
-                  <img class="card-text" src="./img/riverwidth.svg" alt="legend" style="height: 20px" />
-                </div>
-                <div class="col-6">
-                  <p class="card-text">River Width</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-3">
-                  <img class="card-text" src="./img/mortality.svg" alt="legend" style="height: 20px" />
-                </div>
-                <div class="col-6">
-                  <p class="card-text">Reported Deaths</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-3">
-                  <img class="card-text" src="./img/health-pin.svg" alt="legend" style="height: 20px" />
-                </div>
-                <div class="col-6">
-                  <p class="card-text">Blocking Health</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-3">
-                  <img class="card-text" src="./img/education-pin.svg" alt="legend" style="height: 20px" />
-                </div>
-                <div class="col-6">
-                  <p class="card-text">Blocking Education</p>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-3">
-                  <img class="card-text" src="./img/villageboundary.svg" alt="legend" style="height: 20px" />
-                </div>
-                <div class="col-6">
-                  <p class="card-text">5km Village Radius</p>
+        <div class="accordion" id="legend-acc">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button py-2 fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Legend</button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#legend-acc">
+              <div class="accordion-body px-0 py-1">
+                <!-- split this into two sections side by side -->
+                <div class="container">
+                  <div class="row">
+                    <div class="col-3">
+                      <img src="./img/site-pin.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-6">
+                      <p class="card-text">All Sites</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="card-text" src="./img/daysflooded.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-6">
+                      <p class="card-text">Days Flooded</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="card-text" src="./img/riverwidth.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-6">
+                      <p class="card-text">River Width</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="card-text" src="./img/mortality.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-6">
+                      <p class="card-text">Reported Deaths</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="card-text" src="./img/health-pin.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-6">
+                      <p class="card-text">Blocking Health</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="card-text" src="./img/education-pin.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-6">
+                      <p class="card-text">Blocking Education</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="card-text" src="./img/villageboundary.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-6">
+                      <p class="card-text">5km Village Radius</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="live-data">
+          <div class="live-data-text" id="live-data-text"></div>
+          <div class="live-data-graphic" id="live-data-graphic"></div>
+        </div>
+
+        </div>
       </div>
       <div class="map" id="map"></div>
-    </body>
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   </body>
 </html>

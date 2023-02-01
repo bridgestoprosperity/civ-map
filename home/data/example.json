@@ -1,0 +1,95 @@
+{
+    "Bridge Name": "Sola Baka-Djassou 3",
+    "Bridge Opportunity: Country": "Cote d'Ivoire",
+    "Bridge Opportunity: Level 1 Government": "Gbeke",
+    "Bridge Opportunity: Level 2 Government": "Sakassou",
+    "Bridge Opportunity: Level 3 Government": "Djibri Assirikro",
+    "Bridge Opportunity: Level 4 Government": "Sola-Bonikro",
+    "Bridge Opportunity: Opportunity Name": "Cote d'Ivoire",
+    "Bridge Opportunity: Opportunity Unique Identifier": 1042847,
+    "Current crossing method": "<img src=\"https://bridges.my.salesforce.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Jpg&amp;versionId=0683Z00000L6TtFQAV\" alt=\" \" style=\"height:120px; width:90px;\" border=\"0\"/>",
+    "Current crossing method URL": "https://bridges.my.salesforce.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Jpg&versionId=0683Z00000L6TtFQAV",
+    "Days per year river is flooded": 90,
+    "Education access blocked by river": "",
+    "Flag for Rejection": "No",
+    "Flood duration during rainy season": 7,
+    "Form: Created By": "b'sekredoukob\\xe9nan taroworks'",
+    "Form: Created Date": "11/6/22",
+    "Health access blocked by river": "",
+    "High water line URL": "https://bridges.my.salesforce.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Jpg&versionId=0683Z00000L6TsqQAF",
+    "Incident descriptions": "b'Pas de cas d?incident signal\\xe9 sur le site'",
+    "Market access blocked by river": "Feme - Farms",
+    "Notes on social information": "b'Monsieur Ouya N?zu\\xe9 Daniel,  pr\\xe9sident adjoint des jeunes de sola Baka-Djassou,  +2250545176110 a particip\\xe9 \\xe0 l?entretien.'",
+    "Other access blocked by river": "",
+    "Reason site not valid": "",
+    "River crossing deaths in last 3 years": 0,
+    "Site Validation Comments": "Le site n?est pas grand,  pas profond,  forme un bafond en amont et en aval,  difficilement franchissable en saison des pluies.",
+    "Width of River During Flooding (m)": 89,
+    "_0": 489,
+    "latitude": 7.601403,
+    "longitude": -5.238599
+},
+
+{
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -5.250091552734375,
+            7.5939404727590585
+        ]
+    },
+    "properties": {
+        "Bridge Name": "Allouboti 1",
+        "Bridge Opportunity: Country": "Cote d'Ivoire",
+        "Bridge Opportunity: Level 1 Government": "Gbeke",
+        "Bridge Opportunity: Level 2 Government": "Sakassou",
+        "Bridge Opportunity: Level 3 Government": "Dibri Assirikro",
+        "Bridge Opportunity: Level 4 Government": "Sola-Bonikro",
+        "Bridge Opportunity: Opportunity Name": "Cote d'Ivoire",
+        "Bridge Opportunity: Opportunity Unique Identifier": 1043858,
+        "Current crossing method": "<img src=\"https://bridges.my.salesforce.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Jpg&amp;versionId=0683Z00000LtKhrQAF\" alt=\" \" style=\"height:120px; width:90px;\" border=\"0\"/>",
+        "Current crossing method URL": "https://bridges.my.salesforce.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Jpg&versionId=0683Z00000LtKhrQAF",
+        "Days per year river is flooded": 0,
+        "Education access blocked by river": "",
+        "Flag for Rejection": "No",
+        "Flood duration during rainy season": "1 jours",
+        "Form: Created By": "b'sekredoukob\\xe9nan taroworks'",
+        "Form: Created Date": "12/14/22",
+        "Health access blocked by river": "",
+        "High water line URL": "https://bridges.my.salesforce.com/sfc/servlet.shepherd/version/renditionDownload?rendition=ORIGINAL_Jpg&versionId=0683Z00000LtKhDQAV",
+        "Incident descriptions": "b\"Aucun incident n'est signal\\xe9 sur le site\"",
+        "Market access blocked by river": "Feme - Farms",
+        "Notes on social information": "b'Messieurs Kouassi Kan Narcisse,  vice-pr\\xe9sident des jeunes de Allouboti,  +2250757482919,  et Kra Kouassi Barth\\xe9l\\xe9my,  +2250708773986 ont particip\\xe9 \\xe0 l?entretien.'",
+        "Other access blocked by river": "",
+        "Reason site not valid": "",
+        "River crossing deaths in last 3 years": 0,
+        "Site Validation Comments": "b'La rivi\\xe8re n?est pas profonde,  pas large,  coule tr\\xe8s lentement'",
+        "Width of River During Flooding (m)": 10,
+        "_0": 538,
+        "latitude": 7.593432,
+        "longitude": -5.24976
+    },
+    "id": 325,
+    "layer": {
+        "id": "site-dots",
+        "type": "circle",
+        "source": "composite",
+        "source-layer": "civ-assessments-v2-4b6mhv",
+        "maxzoom": 11,
+        "paint": {
+            "circle-color": {
+                "r": 0.13333333333333333,
+                "g": 0.5176470588235295,
+                "b": 0.6666666666666666,
+                "a": 1
+            },
+            "circle-blur": 3.3071428571428574,
+            "circle-radius": 2
+        },
+        "layout": {}
+    },
+    "source": "composite",
+    "sourceLayer": "civ-assessments-v2-4b6mhv",
+    "state": {}
+}
