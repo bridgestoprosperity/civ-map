@@ -66,17 +66,36 @@ body {
 }
 /* create a class called live-data-text that matches h1 styling */
 .live-data-text {
+  font-family: 'Kanit', monospace;
   font-size: 2em;
-  font-weight: 600;
+  font-weight: 400;
   color: #000;
   margin: 0;
   padding: 0;
   /* add a drop shadow */
   text-shadow: 5px 5px 10px #5353536a;
+  text-shadow: 1px 1px 10px #ffffff;
   white-space: nowrap;
+
 }
 
 .live-data-graphic {
   margin: 0;
   padding: 0;
 }
+.popup-custom{
+  font-family: 'Inconsolata', Courier, monospace;
+  font-size: 1em;
+  font-weight: 300;
+  line-height: 1.3em;
+  color: rgb(72, 72, 72);
+  margin: 0px !important;
+}
+/* font-family: 'B612 Mono', monospace;
+font-family: 'Fira Sans', sans-serif;
+font-family: 'Inconsolata', monospace;
+font-family: 'Kanit', sans-serif;
+font-family: 'Kumbh Sans', sans-serif;
+font-family: 'Major Mono Display', monospace;
+font-family: 'Montserrat', sans-serif;
+font-family: 'Ubuntu Mono', monospace; */

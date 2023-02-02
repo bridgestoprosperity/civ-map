@@ -3,7 +3,6 @@ import * as hov from "./hoverFunctions.js";
 // FUNCTIONS
 function queryFeatures(feature) {
   var features = map.queryRenderedFeatures({ layers: [feature] });
-  console.log(features);
 }
 
 function updateVisibilty(hide, show) {
@@ -27,8 +26,7 @@ function updateInteractive(layers) {
         if (hoveredFeatureID !== null) {
           map.setFeatureState({ source: "civ-assesment", sourceLayer: "civ-assessments-v2-4b6mhv", id: hoveredFeatureID }, { hover: false });
         }
-        // This sets feature state to hover: true
-        // console.log(e.features[0].id)
+
         hoveredFeatureID = e.features[0].id;
         map.setFeatureState({ source: "civ-assesment", sourceLayer: "civ-assessments-v2-4b6mhv", id: hoveredFeatureID }, { hover: true });
         // Debugging - This logs the feature's feature state
@@ -40,8 +38,65 @@ function updateInteractive(layers) {
       }
     });
     // This is where the menu pop up will go
-    map.on("click", showList[l], () => {
-      console.log("clicked");
+    map.on("click", showList[l], (e) => {
+      popupVisible = true;
+      const coordinates = e.features[0].geometry.coordinates.slice();
+      const description = e.features[0].properties.description;
+
+      // Ensure that if the map is zoomed out such that multiple
+      // copies of the feature are visible, the popup appears
+      // over the copy being pointed to.
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+      let properties = e.features[0].properties;
+      let blockingList = [];
+      let blockingString = "";
+      if (properties["Education access blocked by river"].includes("Primary") !== false) {
+        blockingList.push("Primary School");
+      }
+      if (properties["Education access blocked by river"].includes("Secondary") !== false) {
+        blockingList.push("Secondary School");
+      }
+      if (properties["Education access blocked by river"].includes("University") !== false) {
+        blockingList.push("University");
+      }
+      if (properties["Health access blocked by river"].includes("Hospital") !== false) {
+        blockingList.push("Hospital");
+      }
+      if (properties["Health access blocked by river"].includes("Clinic") !== false) {
+        blockingList.push("Clinic");
+      }
+      if (properties["Health access blocked by river"].includes("Pharmacy") !== false) {
+        blockingList.push("Pharmacy");
+      }
+
+      if (blockingList.length > 1) {
+        let last = blockingList.pop();
+        blockingString = blockingList.join(", ") + " and " + last + " Blocked";
+      } else if (blockingList.length == 1) {
+        blockingString = blockingList[0] + " Blocked";
+      } else {
+        blockingString = "";
+      }
+
+      let name = "Name: " + properties["Bridge Name"];
+      let village = "Village: " + properties["Bridge Opportunity: Level 4 Government"];
+      let days = "Days Flooded: " + properties["Days per year river is flooded"];
+      let width = "River Width: " + properties["Width of River During Flooding (m)"] + "m";
+      let mortality = "Deaths: " + properties["River crossing deaths in last 3 years"];
+      let blocking = "Blocking: " + blockingString;
+      let rejected = "Rejected: " + properties["Flag for Rejection"];
+
+      let popupList = [name, village, days, width, mortality, blocking, rejected];
+
+      new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML("<div class='popup-custom'>"+ popupList.join('<br>') + "</div>")
+        .on("close", (e) => {
+          popupVisible = false;
+        })
+        .addTo(map);
     });
 
     map.on("mouseleave", showList[l], () => {
@@ -49,6 +104,7 @@ function updateInteractive(layers) {
       if (popupVisible != true) {
         document.getElementById("live-data-text").innerHTML = "";
         document.getElementById("live-data-graphic").innerHTML = "";
+        document.getElementById("live-data-graphic").style.width = "300px";
       }
       // This sets feature state to hover: false when the mouse leaves.
       if (hoveredFeatureID !== null) {
@@ -92,42 +148,36 @@ document.getElementById("optionsRadios1").addEventListener("click", () => {
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
   // DELETE this eventually
-  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #2284aa; font-family: Monaco" >Bridge Site</h4>`;
 });
 document.getElementById("optionsRadios2").addEventListener("click", () => {
   showList = ["days-flooded-label", "days-flooded"];
   hideList = ["site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
-  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #3670ec; font-family: Monaco" >Days Flooded</h4>`;
 });
 document.getElementById("optionsRadios3").addEventListener("click", () => {
   showList = ["river-width-label", "river-width"];
   hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
-  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #87b5b2; font-family: Monaco" >Flooded River Width</h4>`;
 });
 document.getElementById("optionsRadios4").addEventListener("click", () => {
   showList = ["mortality", "mortality-label"];
   hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
-  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #ac2b25; font-family: Monaco" >Reported Deaths</h4>`;
 });
 document.getElementById("optionsRadios5").addEventListener("click", () => {
   showList = ["healthcare-block", "healthcare-block-pin"];
   hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
-  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #eb5c52; font-family: Monaco" >Site Blocking Healthcare Access</h4>`;
 });
 document.getElementById("optionsRadios6").addEventListener("click", () => {
   showList = ["education-block", "education-block-pin"];
   hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
-  document.getElementById("map-legend").innerHTML = `<h4 style= "color: #e29536; font-family: Monaco" >Blocking Education</h4>`;
 });
 
 // FILTERS
@@ -163,7 +213,7 @@ let hoveredFeatureID = null;
 var showList = ["site-pins", "site-dots"];
 var hideList = ["days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
 updateInteractive(showList);
-const popupVisible = false;
+var popupVisible = false;
 
 // ON LOAD
 map.on("load", function () {
