@@ -37,15 +37,15 @@ function updateInteractive(layers) {
         //   }));
       }
     });
-    // This is where the menu pop up will go
+    // Popup Code
     map.on("click", showList[l], (e) => {
+      popupVisible = false;
+      hov.liveDataHandler(e.features[0]);
       popupVisible = true;
       const coordinates = e.features[0].geometry.coordinates.slice();
       const description = e.features[0].properties.description;
 
-      // Ensure that if the map is zoomed out such that multiple
-      // copies of the feature are visible, the popup appears
-      // over the copy being pointed to.
+      // Ensure that if the map is zoomed out such that multiple copies of the feature are visible, the popup appears over the copy being pointed to.
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
@@ -92,7 +92,7 @@ function updateInteractive(layers) {
 
       new mapboxgl.Popup()
         .setLngLat(coordinates)
-        .setHTML("<div class='popup-custom'>"+ popupList.join('<br>') + "</div>")
+        .setHTML("<div class='popup-custom'>" + popupList.join("<br>") + "</div>")
         .on("close", (e) => {
           popupVisible = false;
         })
@@ -102,9 +102,7 @@ function updateInteractive(layers) {
     map.on("mouseleave", showList[l], () => {
       map.getCanvas().style.cursor = "";
       if (popupVisible != true) {
-        document.getElementById("live-data-text").innerHTML = "";
-        document.getElementById("live-data-graphic").innerHTML = "";
-        document.getElementById("live-data-graphic").style.width = "300px";
+        hov.reset();
       }
       // This sets feature state to hover: false when the mouse leaves.
       if (hoveredFeatureID !== null) {
@@ -114,6 +112,19 @@ function updateInteractive(layers) {
     });
   }
 }
+
+function addClusters(layer) {
+  // query map to see if there are any cluster layers visible
+  // var visibleClusterLayerIds = map.getStyle().layers.filter(function(layer) {
+  //   return layer.type === 'circle' && layer.layout['cluster'] === true;
+  // }
+  // ).map(function(layer) {
+  //   return layer.id;
+  // }
+  // );
+  // add a cluster layer from sites-source
+}
+
 // PLACEHOLDER
 var idList = ["optionsRadios1", "optionsRadios2", "optionsRadios3", "optionsRadios4", "optionsRadios5", "optionsRadios6", "optionsRadios7", "optionsRadios8", "civ-button", "sp-button", "gbk-button", "switch1", "switch2", "switch3", "map"];
 
@@ -147,6 +158,7 @@ document.getElementById("optionsRadios1").addEventListener("click", () => {
   hideList = ["days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  hov.reset();
   // DELETE this eventually
 });
 document.getElementById("optionsRadios2").addEventListener("click", () => {
@@ -154,30 +166,35 @@ document.getElementById("optionsRadios2").addEventListener("click", () => {
   hideList = ["site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  hov.reset();
 });
 document.getElementById("optionsRadios3").addEventListener("click", () => {
   showList = ["river-width-label", "river-width"];
   hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  hov.reset();
 });
 document.getElementById("optionsRadios4").addEventListener("click", () => {
   showList = ["mortality", "mortality-label"];
   hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  hov.reset();
 });
 document.getElementById("optionsRadios5").addEventListener("click", () => {
   showList = ["healthcare-block", "healthcare-block-pin"];
   hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  hov.reset();
 });
 document.getElementById("optionsRadios6").addEventListener("click", () => {
   showList = ["education-block", "education-block-pin"];
   hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  hov.reset();
 });
 
 // FILTERS
@@ -202,6 +219,7 @@ const map = new mapboxgl.Map({
   center: [-7.014, 7.426], // starting position [lng, lat]
   zoom: 6.37, // starting zoom
   minZoom: 6,
+  hash: true,
 });
 
 // VARIABLES
@@ -219,13 +237,66 @@ var popupVisible = false;
 map.on("load", function () {
   // document.getElementById("map-legend").innerHTML = `<h4 style= "color: #2284aa; font-family: Monaco" >Bridge Site</h4>`;
   // ADDING SOURCES
+  updateVisibilty(hideList, showList);
   map.addSource("sites-source", {
     type: "geojson",
-    data: "./data/civ-assessment-v1.geojson",
+    data: "./data/civ-assessments-v5.geojson",
+    cluster: true,
+    clusterMaxZoom: 9,
+    clusterRadius: 70,
+    maxzoom: 11,
+    clusterMinPoints: 5,
+
   });
   map.addSource("civ-assesment", {
     type: "vector",
     url: "mapbox://highestroad.6chlwg08",
   });
-  //   HOVER STUFF
+  
+  map.addLayer({
+    id: "sites-cluster",
+    type: "circle",
+    source: "sites-source",
+    filter: ["has", "point_count"],
+    layout: {
+      visibility: "visible",
+      
+    },
+    paint: {
+      "circle-color": ["step", ["get", "point_count"], "white", 5, "#F7FCFD", 20, "#D6EFED", 35, "#91D2C1", 50, "#4EB080", 110, "#1D7E3F", 175, "#04431D"],
+      "circle-radius": ["step", ["get", "point_count"], 8, 5, 20, 20, 23, 35, 25, 50, 29, 110, 32, 175, 35],
+      "circle-opacity": 0.7,
+      "circle-stroke-width": 2,
+      "circle-stroke-color": "#137876",
+    },
+  }, "waterway-label");
+  map.addLayer({
+    id: 'cluster-count',
+    type: 'symbol',
+    source: 'sites-source',
+    filter: ['has', 'point_count'],
+    layout: {
+    'text-field': ["concat",["to-string",["get","point_count_abbreviated"]]," \n Sites"],
+    'text-font': ['Kumbh Sans Regular'],
+    'text-size': 12
+    },
+    paint: {
+    'text-color': '#083030',
+    'text-halo-color': 'white',
+    'text-halo-width': .6,
+    'text-halo-blur': 2,
+  }
+    });
 });
+
+[
+  "concat",
+  [
+    "to-string",
+    [
+      "get",
+      "point_count_abbreviated"
+    ]
+  ],
+  "hi"
+]

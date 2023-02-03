@@ -91,6 +91,11 @@ export function liveDataHandler(feature) {
     console.log("This layer is not handled with the liveDataHandler function");
   }
 }
+export function reset() {
+  document.getElementById("live-data-text").innerHTML = "";
+  document.getElementById("live-data-graphic").innerHTML = "";
+  document.getElementById("live-data-graphic").style.width = "300px";
+}
 
 // export function popupHandler(feature) {
 //   popupVisible = true;

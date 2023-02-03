@@ -73,8 +73,8 @@ body {
   margin: 0;
   padding: 0;
   /* add a drop shadow */
-  text-shadow: 5px 5px 10px #5353536a;
-  text-shadow: 1px 1px 10px #ffffff;
+  text-shadow: 5px 5px 8px #c3c3c3, 2px 2px 2px #ffffffaf;
+  /* text-shadow: 1px 1px 10px #ffffff; */
   white-space: nowrap;
 
 }
