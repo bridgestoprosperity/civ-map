@@ -15,6 +15,72 @@ function updateVisibilty(hide, show) {
 }
 
 function updateInteractive(layers) {
+  map.on("mousemove", "gbk-village", (e) => {
+    map.getCanvas().style.cursor = "pointer";
+    if (popupVisible != true) {
+      hov.liveDataHandler(e.features[0]);
+    }
+  });
+  map.on("mouseleave", "gbk-village", () => {
+    map.getCanvas().style.cursor = "";
+    if (popupVisible != true) {
+      hov.reset();
+    }
+    // This sets feature state to hover: false when the mouse leaves.
+  });
+  map.on("mousemove", "sp-village", (e) => {
+    map.getCanvas().style.cursor = "pointer";
+    if (popupVisible != true) {
+      hov.liveDataHandler(e.features[0]);
+    }
+  });
+  map.on("mouseleave", "sp-village", () => {
+    map.getCanvas().style.cursor = "";
+    if (popupVisible != true) {
+      hov.reset();
+    }
+    // This sets feature state to hover: false when the mouse leaves.
+  });
+  map.on("mousemove", "gbk-primary", (e) => {
+    map.getCanvas().style.cursor = "pointer";
+    if (popupVisible != true) {
+      hov.liveDataHandler(e.features[0]);
+    }
+  });
+  map.on("mouseleave", "gbk-primary", () => {
+    map.getCanvas().style.cursor = "";
+    if (popupVisible != true) {
+      hov.reset();
+    }
+    // This sets feature state to hover: false when the mouse leaves.
+  });
+  map.on("mousemove", "sp-primary", (e) => {
+    map.getCanvas().style.cursor = "pointer";
+    if (popupVisible != true) {
+      hov.liveDataHandler(e.features[0]);
+    }
+  });
+  map.on("mouseleave", "sp-primary", () => {
+    map.getCanvas().style.cursor = "";
+    if (popupVisible != true) {
+      hov.reset();
+    }
+    // This sets feature state to hover: false when the mouse leaves.
+  });
+  map.on("mousemove", "sp-college", (e) => {
+    map.getCanvas().style.cursor = "pointer";
+    if (popupVisible != true) {
+      hov.liveDataHandler(e.features[0]);
+    }
+  });
+  map.on("mouseleave", "sp-primary", () => {
+    map.getCanvas().style.cursor = "";
+    if (popupVisible != true) {
+      hov.reset();
+    }
+    // This sets feature state to hover: false when the mouse leaves.
+  });
+
   for (let l in layers) {
     map.on("mousemove", layers[l], (e) => {
       map.getCanvas().style.cursor = "pointer";
@@ -29,14 +95,9 @@ function updateInteractive(layers) {
 
         hoveredFeatureID = e.features[0].id;
         map.setFeatureState({ source: "civ-assesment", sourceLayer: "civ-assessments-v2-4b6mhv", id: hoveredFeatureID }, { hover: true });
-        // Debugging - This logs the feature's feature state
-        // console.log(map.getFeatureState({
-        //   source: 'civ-assesment',
-        //   sourceLayer: 'civ-assessments-v2-4b6mhv',
-        //   id: e.features[0].id
-        //   }));
       }
     });
+
     // Popup Code
     map.on("click", showList[l], (e) => {
       popupVisible = false;
@@ -73,9 +134,9 @@ function updateInteractive(layers) {
 
       if (blockingList.length > 1) {
         let last = blockingList.pop();
-        blockingString = blockingList.join(", ") + " and " + last + " Blocked";
+        blockingString = blockingList.join(", ") + " and " + last;
       } else if (blockingList.length == 1) {
-        blockingString = blockingList[0] + " Blocked";
+        blockingString = blockingList[0];
       } else {
         blockingString = "";
       }
@@ -115,28 +176,26 @@ function updateInteractive(layers) {
 hideList = ["site-pins", "site-dots", "days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
 
 function filterFunction() {
-  console.log("showlist 0 is " + showList[0]);
   if (showList[0] === "site-pins" || showList[0] === "site-dots" || showList[0] === "cluster-count" || showList[0] === "sites-cluster") {
     radioFilter = ["has", "Bridge Name"];
-    console.log(radioFilter);
   } else if (showList[0] == "days-flooded-label" || showList[0] == "days-flooded") {
     radioFilter = ["match", ["get", "Days per year river is flooded"], ["0", "none"], false, true];
-    console.log(radioFilter);
+
   } else if (showList[0] == "mortality" || showList[0] == "mortality-label") {
     radioFilter = ["!=", ["get", "River crossing deaths in last 3 years"], 0];
-    console.log(radioFilter);
+
   } else if (showList[0] == "river-width" || showList[0] == "river-width-label") {
     radioFilter = ["match", ["get", "Width of River During Flooding (m)"], ["0", "none"], false, true];
-    console.log(radioFilter);
+
   } else if (showList[0] == "education-block" || showList[0] == "education-block-pin") {
     radioFilter = ["!=", ["get", "Education access blocked by river"], ""];
-    console.log(radioFilter);
+
   } else if (showList[0] == "healthcare-block" || showList[0] == "healthcare-block-pin") {
     radioFilter = ["!=", ["get", "Health access blocked by river"], ""];
-    console.log("radio filter is " + radioFilter);
+
   } else {
     radioFilter = ["has", "Bridge Name"];
-    console.log(radioFilter);
+
   }
   if (document.getElementById("mortality-switch").checked) {
     mortalityFilter = ["!=", ["get", "River crossing deaths in last 3 years"], 0];
@@ -148,9 +207,9 @@ function filterFunction() {
   } else {
     rejectFilter = ["match", ["get", "Flag for Rejection"], ["No"], true, false];
   }
-  // console.log(showList[0])
+
   for (let l in showList) {
-    console.log(showList[l])
+
     if (showList[l] == "sites-cluster" || showList[l] == "cluster-count") {
       if (document.getElementById("mortality-switch").checked) {
         map.setLayoutProperty(showList[l], "visibility", "none");
@@ -160,13 +219,9 @@ function filterFunction() {
       }
     } else {
       map.setFilter(showList[l], ["all", radioFilter, mortalityFilter, rejectFilter]);
-      console.log(showList[l], ["all", radioFilter, mortalityFilter, rejectFilter]);
     }
   }
 }
-
-// PLACEHOLDER
-var idList = ["all-radio", "flood-radio", "width-radio", "mortality-radio", "healthcare-radio", "education-radio", "optionsRadios7", "optionsRadios8", "civ-button", "sp-button", "gbk-button", "village-switch", "reject-switch", "mortality-switch", "map"];
 
 // Buttons
 document.getElementById("civ-button").addEventListener("click", () => {
@@ -192,7 +247,6 @@ document.getElementById("gbk-button").addEventListener("click", () => {
 });
 
 // RADIOS
-
 document.getElementById("all-radio").addEventListener("click", () => {
   showList = ["site-pins", "site-dots", "sites-cluster", "cluster-count"];
   hideList = ["days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
@@ -242,9 +296,23 @@ document.getElementById("education-radio").addEventListener("click", () => {
   filterFunction();
   hov.reset();
 });
+document.getElementById("host-radio").addEventListener("click", () => {
+  // TBD TURF STUFF
+  showList = [];
+  hideList = ["education-block", "education-block-pin", "sites-cluster", "cluster-count", "days-flooded-label", "days-flooded", "site-pins", "site-dots", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+  updateVisibilty(hideList, showList);
+  // gbkPolygon = turf.polygon("./data/GBK_Host_Village_Radius.geojson")
+  // spPolygon = turf.polygon("./data/SP_Host_Village_Radius.geojson")
+  // spPolygon =
+  sitePoints = turf.points("./data/Host_Sites.geojson");
+  console.log(sitePoints);
+  console.log(gbkPolygon);
 
-// FILTERS
-// when village-switch is checked print hello world
+  filterFunction();
+  hov.reset();
+});
+
+// SWITCHES
 document.getElementById("village-switch").addEventListener("click", () => {
   if (document.getElementById("village-switch").checked) {
     updateVisibilty(null, ["gbk-village-radius-fill", "sp-village-radius-fill", "gbk-village-radius-line", "sp-village-radius-line"]);
@@ -258,6 +326,20 @@ document.getElementById("mortality-switch").addEventListener("click", () => {
 document.getElementById("reject-switch").addEventListener("click", () => {
   filterFunction();
 });
+document.getElementById("sat-switch").addEventListener("click", () => {
+  if (document.getElementById("sat-switch").checked) {
+    updateVisibilty(null, ["satellite"]);
+  } else {
+    updateVisibilty(["satellite"], null);
+  }
+});
+document.getElementById("3D-switch").addEventListener("click", () => {
+  if (document.getElementById("3D-switch").checked) {
+    map.easeTo({ pitch: 70 });
+  } else {
+    map.easeTo({ pitch: 0 });
+  }
+});
 
 // BASIC MAPBOX STUFF
 mapboxgl.accessToken = "pk.eyJ1IjoiaGlnaGVzdHJvYWQiLCJhIjoiY2w5bjYzdXlyMDNyOTNycDh4YnB1dWV5eiJ9.vhIIq0L5So522RkERq7MNQ";
@@ -270,7 +352,9 @@ const map = new mapboxgl.Map({
   zoom: 6.37, // starting zoom
   minZoom: 6,
   hash: true,
+  // add map controls
 });
+map.addControl(new mapboxgl.NavigationControl());
 
 // VARIABLES
 let villageRadiusLayers = ["sp-vil-radius-line", "gbk-vil-radius-line", "sp-vil-radius-fill ", "gbk-vil-radius-fill", "sp-vil-radius-line-shadow", "gbk-vil-radius-line-shadow"];
@@ -280,6 +364,8 @@ let glowColorLight = "hsl(78, 85%, 84%)";
 let hoveredFeatureID = null;
 var showList = ["site-pins", "site-dots", "sites-cluster", "cluster-count"];
 var hideList = ["days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+var villages = ["gbk-village", "sp-village"];
+var schools = ["sp-primary", "gbk-primary"];
 
 var popupVisible = false;
 let radioFilter = [];
@@ -322,7 +408,7 @@ map.on("load", function () {
         "circle-stroke-color": "#137876",
       },
     },
-    "waterway-label"
+    "site-pins"
   );
   map.addLayer({
     id: "cluster-count",

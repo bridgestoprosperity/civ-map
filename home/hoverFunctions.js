@@ -90,39 +90,30 @@ export function liveDataHandler(feature) {
   } else {
     console.log("This layer is not handled with the liveDataHandler function");
   }
+  if (feature.layer.id == "gbk-village" || feature.layer.id == "sp-village") {
+    document.getElementById("live-data-text").innerHTML = feature.properties["Villages"] + " - " + feature.properties["TranchCDP"];
+    if (feature.properties["TranchCDP"] == "Tranche 1") {
+      document.getElementById("live-data-text").style.color = "#e5308a";
+    } else if (feature.properties["TranchCDP"] == "Tranche 2") {
+      document.getElementById("live-data-text").style.color = "#7572b2";
+    } else {
+      document.getElementById("live-data-text").style.color = "#b8b8b8";
+    }
+  }
+  if (feature.layer.id == "sp-primary" || feature.layer.id == "sp-college" || feature.layer.id == "gbk-primary") {
+    document.getElementById("live-data-text").style.color = "#f5bb00";
+    document.getElementById("live-data-text").innerHTML = feature.properties["Nom_Etab"] + " SCHOOL";
+    // if (feature.properties["TranchCDP"] == "Tranche 1"){
+    //   document.getElementById("live-data-text").style.color = "#e5308a";
+    // } else if(feature.properties["TranchCDP"] == "Tranche 2") {
+    //   document.getElementById("live-data-text").style.color = "#7572b2";
+    // } else {
+    //   document.getElementById("live-data-text").style.color = "#b8b8b8";
+    // }
+  }
 }
 export function reset() {
   document.getElementById("live-data-text").innerHTML = "";
   document.getElementById("live-data-graphic").innerHTML = "";
   document.getElementById("live-data-graphic").style.width = "300px";
 }
-
-// export function popupHandler(feature) {
-//   popupVisible = true;
-//   console.log("clicked");
-//   const coordinates = feature.features[0].geometry.coordinates.slice();
-//   const description = feature.features[0].properties.description;
-
-//   // Ensure that if the map is zoomed out such that multiple
-//   // copies of the feature are visible, the popup appears
-//   // over the copy being pointed to.
-//   while (Math.abs(feature.lngLat.lng - coordinates[0]) > 180) {
-//     coordinates[0] += feature.lngLat.lng > coordinates[0] ? 360 : -360;
-//   }
-//   hov.popupHandler(feature.features[0]);
-//   new mapboxgl.Popup()
-//     .setLngLat(coordinates)
-//     .setHTML("HELLO DESCRIPTION")
-//     .on("close", (feature) => {
-//       popupVisible = false;
-//     })
-//     .addTo(map);
-// }
-
-// // This sets map value to the value of the feature this should be in the hover functions function
-// if (headerString !== false) {
-//   document.getElementById("map-value").innerHTML = e.features[0]._vectorTileFeature.properties[headerString] + addString;
-// }
-
-//       // changes the html back to nothing. This should be in hover function
-//       document.getElementById("map-value").innerHTML = "";

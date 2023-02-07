@@ -14,6 +14,8 @@
     <!-- mapbox -->
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+    <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
     <!-- custom css -->
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,6 +69,10 @@
                   <input class="form-check-input" type="radio" name="optionsRadios" id="education-radio" value="option6" />
                   <label class="form-check-label" for="education-radio"> Sites preventing access to education </label>
                 </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="optionsRadios" id="host-radio" value="option6" disabled/>
+                  <label class="form-check-label" for="host-radio"> Sites within 5km of host Village </label>
+                </div>
                 <!-- <div class="form-check disabled">
                   <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios6" value="option6" disabled="" />
                   <label class="form-check-label" for="optionsRadios6"> disabled example, please ignore </label>
@@ -84,8 +90,8 @@
                     <label class="form-check-label" for="sat-switch">Satellite view</label>
                   </div>
                   <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="sat-switch" />
-                    <label class="form-check-label" for="sat-switch">3D view</label>
+                    <input class="form-check-input" type="checkbox" id="3D-switch" />
+                    <label class="form-check-label" for="3D-switch">3D view</label>
                   </div>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="village-switch" />
@@ -98,10 +104,6 @@
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="mortality-switch" />
                     <label class="form-check-label" for="mortality-switch">Filter by sites with reported mortalities</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="switch4" />
-                    <label class="form-check-label" for="switch4">Filter by sites within 5km of a host village</label>
                   </div>
                   <!-- <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
@@ -179,8 +181,24 @@
                     <div class="col-3">
                       <img class="card-text" src="./img/villageboundary.svg" alt="legend" style="height: 20px" />
                     </div>
-                    <div class="col-6">
-                      <p class="card-text">5km Village Radius</p>
+                    <div class="col-9">
+                      <p class="card-text">Tranche 1 - 5km Village Radius</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="card-text" src="./img/villageboundary.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-9">
+                      <p class="card-text">Tranche 2 - 5km Village Radius</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="card-text" src="./img/villageboundary.svg" alt="legend" style="height: 20px" />
+                    </div>
+                    <div class="col-9">
+                      <p class="card-text">Tranche 3 - 5km Village Radius</p>
                     </div>
                   </div>
                 </div>
