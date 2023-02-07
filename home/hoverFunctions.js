@@ -1,4 +1,4 @@
-const allSitesColor = "#2284aa";
+const allSitesColor = "#3C884B";
 const daysColor = "#3670ec";
 const widthColor = "#87b5b2";
 const mortalityColor = "#ac2b25";

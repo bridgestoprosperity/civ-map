@@ -112,21 +112,61 @@ function updateInteractive(layers) {
     });
   }
 }
+hideList = ["site-pins", "site-dots", "days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
 
-function addClusters(layer) {
-  // query map to see if there are any cluster layers visible
-  // var visibleClusterLayerIds = map.getStyle().layers.filter(function(layer) {
-  //   return layer.type === 'circle' && layer.layout['cluster'] === true;
-  // }
-  // ).map(function(layer) {
-  //   return layer.id;
-  // }
-  // );
-  // add a cluster layer from sites-source
+function filterFunction() {
+  console.log("showlist 0 is " + showList[0]);
+  if (showList[0] === "site-pins" || showList[0] === "site-dots" || showList[0] === "cluster-count" || showList[0] === "sites-cluster") {
+    radioFilter = ["has", "Bridge Name"];
+    console.log(radioFilter);
+  } else if (showList[0] == "days-flooded-label" || showList[0] == "days-flooded") {
+    radioFilter = ["match", ["get", "Days per year river is flooded"], ["0", "none"], false, true];
+    console.log(radioFilter);
+  } else if (showList[0] == "mortality" || showList[0] == "mortality-label") {
+    radioFilter = ["!=", ["get", "River crossing deaths in last 3 years"], 0];
+    console.log(radioFilter);
+  } else if (showList[0] == "river-width" || showList[0] == "river-width-label") {
+    radioFilter = ["match", ["get", "Width of River During Flooding (m)"], ["0", "none"], false, true];
+    console.log(radioFilter);
+  } else if (showList[0] == "education-block" || showList[0] == "education-block-pin") {
+    radioFilter = ["!=", ["get", "Education access blocked by river"], ""];
+    console.log(radioFilter);
+  } else if (showList[0] == "healthcare-block" || showList[0] == "healthcare-block-pin") {
+    radioFilter = ["!=", ["get", "Health access blocked by river"], ""];
+    console.log("radio filter is " + radioFilter);
+  } else {
+    radioFilter = ["has", "Bridge Name"];
+    console.log(radioFilter);
+  }
+  if (document.getElementById("mortality-switch").checked) {
+    mortalityFilter = ["!=", ["get", "River crossing deaths in last 3 years"], 0];
+  } else {
+    mortalityFilter = ["all", ["has", "River crossing deaths in last 3 years"]];
+  }
+  if (document.getElementById("reject-switch").checked) {
+    rejectFilter = ["all", ["has", "Flag for Rejection"]];
+  } else {
+    rejectFilter = ["match", ["get", "Flag for Rejection"], ["No"], true, false];
+  }
+  // console.log(showList[0])
+  for (let l in showList) {
+    console.log(showList[l])
+    if (showList[l] == "sites-cluster" || showList[l] == "cluster-count") {
+      if (document.getElementById("mortality-switch").checked) {
+        map.setLayoutProperty(showList[l], "visibility", "none");
+      } else {
+        map.setLayoutProperty(showList[l], "visibility", "visible");
+        map.setFilter(showList[l], ["all", ["has", "point_count"]]);
+      }
+    } else {
+      map.setFilter(showList[l], ["all", radioFilter, mortalityFilter, rejectFilter]);
+      console.log(showList[l], ["all", radioFilter, mortalityFilter, rejectFilter]);
+    }
+  }
 }
 
 // PLACEHOLDER
-var idList = ["optionsRadios1", "optionsRadios2", "optionsRadios3", "optionsRadios4", "optionsRadios5", "optionsRadios6", "optionsRadios7", "optionsRadios8", "civ-button", "sp-button", "gbk-button", "switch1", "switch2", "switch3", "map"];
+var idList = ["all-radio", "flood-radio", "width-radio", "mortality-radio", "healthcare-radio", "education-radio", "optionsRadios7", "optionsRadios8", "civ-button", "sp-button", "gbk-button", "village-switch", "reject-switch", "mortality-switch", "map"];
 
 // Buttons
 document.getElementById("civ-button").addEventListener("click", () => {
@@ -153,64 +193,74 @@ document.getElementById("gbk-button").addEventListener("click", () => {
 
 // RADIOS
 
-document.getElementById("optionsRadios1").addEventListener("click", () => {
-  showList = ["site-pins", "site-dots"];
+document.getElementById("all-radio").addEventListener("click", () => {
+  showList = ["site-pins", "site-dots", "sites-cluster", "cluster-count"];
   hideList = ["days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  filterFunction();
   hov.reset();
   // DELETE this eventually
 });
-document.getElementById("optionsRadios2").addEventListener("click", () => {
+document.getElementById("flood-radio").addEventListener("click", () => {
   showList = ["days-flooded-label", "days-flooded"];
-  hideList = ["site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+  hideList = ["sites-cluster", "cluster-count", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  filterFunction();
   hov.reset();
 });
-document.getElementById("optionsRadios3").addEventListener("click", () => {
+document.getElementById("width-radio").addEventListener("click", () => {
   showList = ["river-width-label", "river-width"];
-  hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label"];
+  hideList = ["sites-cluster", "cluster-count", "days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  filterFunction();
   hov.reset();
 });
-document.getElementById("optionsRadios4").addEventListener("click", () => {
+document.getElementById("mortality-radio").addEventListener("click", () => {
   showList = ["mortality", "mortality-label"];
-  hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "river-width-label", "river-width"];
+  hideList = ["sites-cluster", "cluster-count", "days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  filterFunction();
   hov.reset();
 });
-document.getElementById("optionsRadios5").addEventListener("click", () => {
+document.getElementById("healthcare-radio").addEventListener("click", () => {
   showList = ["healthcare-block", "healthcare-block-pin"];
-  hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+  hideList = ["sites-cluster", "cluster-count", "days-flooded-label", "days-flooded", "site-pins", "site-dots", "education-block", "education-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  filterFunction();
   hov.reset();
 });
-document.getElementById("optionsRadios6").addEventListener("click", () => {
+document.getElementById("education-radio").addEventListener("click", () => {
   showList = ["education-block", "education-block-pin"];
-  hideList = ["days-flooded-label", "days-flooded", "site-pins", "site-dots", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+  hideList = ["sites-cluster", "cluster-count", "days-flooded-label", "days-flooded", "site-pins", "site-dots", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
+  filterFunction();
   hov.reset();
 });
 
 // FILTERS
-// when switch1 is checked print hello world
-document.getElementById("switch1").addEventListener("click", () => {
-  if (document.getElementById("switch1").checked) {
+// when village-switch is checked print hello world
+document.getElementById("village-switch").addEventListener("click", () => {
+  if (document.getElementById("village-switch").checked) {
     updateVisibilty(null, ["gbk-village-radius-fill", "sp-village-radius-fill", "gbk-village-radius-line", "sp-village-radius-line"]);
   } else {
     updateVisibilty(["gbk-village-radius-fill", "sp-village-radius-fill", "gbk-village-radius-line", "sp-village-radius-line"], null);
   }
 });
+document.getElementById("mortality-switch").addEventListener("click", () => {
+  filterFunction();
+});
+document.getElementById("reject-switch").addEventListener("click", () => {
+  filterFunction();
+});
 
 // BASIC MAPBOX STUFF
 mapboxgl.accessToken = "pk.eyJ1IjoiaGlnaGVzdHJvYWQiLCJhIjoiY2w5bjYzdXlyMDNyOTNycDh4YnB1dWV5eiJ9.vhIIq0L5So522RkERq7MNQ";
-// let toggleOff = ['contour-line', 'contour-label'];
-// let toggleOn = [];
 
 const map = new mapboxgl.Map({
   container: "map", // container ID
@@ -228,16 +278,19 @@ let villageRadiusLayers = ["sp-vil-radius-line", "gbk-vil-radius-line", "sp-vil-
 let glowColor = "hsl(78, 83%, 69%)";
 let glowColorLight = "hsl(78, 85%, 84%)";
 let hoveredFeatureID = null;
-var showList = ["site-pins", "site-dots"];
+var showList = ["site-pins", "site-dots", "sites-cluster", "cluster-count"];
 var hideList = ["days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
-updateInteractive(showList);
+
 var popupVisible = false;
+let radioFilter = [];
+let rejectFilter = [];
+let mortalityFilter = [];
 
 // ON LOAD
 map.on("load", function () {
   // document.getElementById("map-legend").innerHTML = `<h4 style= "color: #2284aa; font-family: Monaco" >Bridge Site</h4>`;
   // ADDING SOURCES
-  updateVisibilty(hideList, showList);
+
   map.addSource("sites-source", {
     type: "geojson",
     data: "./data/civ-assessments-v5.geojson",
@@ -246,57 +299,48 @@ map.on("load", function () {
     clusterRadius: 70,
     maxzoom: 11,
     clusterMinPoints: 5,
-
   });
   map.addSource("civ-assesment", {
     type: "vector",
     url: "mapbox://highestroad.6chlwg08",
   });
-  
+
+  map.addLayer(
+    {
+      id: "sites-cluster",
+      type: "circle",
+      source: "sites-source",
+      filter: ["has", "point_count"],
+      layout: {
+        visibility: "visible",
+      },
+      paint: {
+        "circle-color": ["step", ["get", "point_count"], "white", 5, "#F7FCFD", 20, "#D6EFED", 35, "#91D2C1", 50, "#4EB080", 110, "#1D7E3F", 175, "#04431D"],
+        "circle-radius": ["step", ["get", "point_count"], 8, 5, 20, 20, 23, 35, 25, 50, 29, 110, 32, 175, 35],
+        "circle-opacity": 0.7,
+        "circle-stroke-width": 2,
+        "circle-stroke-color": "#137876",
+      },
+    },
+    "waterway-label"
+  );
   map.addLayer({
-    id: "sites-cluster",
-    type: "circle",
+    id: "cluster-count",
+    type: "symbol",
     source: "sites-source",
     filter: ["has", "point_count"],
     layout: {
-      visibility: "visible",
-      
+      "text-field": ["concat", ["to-string", ["get", "point_count_abbreviated"]], " \n Sites"],
+      "text-font": ["Kumbh Sans Regular"],
+      "text-size": 12,
     },
     paint: {
-      "circle-color": ["step", ["get", "point_count"], "white", 5, "#F7FCFD", 20, "#D6EFED", 35, "#91D2C1", 50, "#4EB080", 110, "#1D7E3F", 175, "#04431D"],
-      "circle-radius": ["step", ["get", "point_count"], 8, 5, 20, 20, 23, 35, 25, 50, 29, 110, 32, 175, 35],
-      "circle-opacity": 0.7,
-      "circle-stroke-width": 2,
-      "circle-stroke-color": "#137876",
+      "text-color": "#083030",
+      "text-halo-color": "white",
+      "text-halo-width": 0.6,
+      "text-halo-blur": 2,
     },
-  }, "waterway-label");
-  map.addLayer({
-    id: 'cluster-count',
-    type: 'symbol',
-    source: 'sites-source',
-    filter: ['has', 'point_count'],
-    layout: {
-    'text-field': ["concat",["to-string",["get","point_count_abbreviated"]]," \n Sites"],
-    'text-font': ['Kumbh Sans Regular'],
-    'text-size': 12
-    },
-    paint: {
-    'text-color': '#083030',
-    'text-halo-color': 'white',
-    'text-halo-width': .6,
-    'text-halo-blur': 2,
-  }
-    });
+  });
+  updateVisibilty(hideList, showList);
+  updateInteractive(showList);
 });
-
-[
-  "concat",
-  [
-    "to-string",
-    [
-      "get",
-      "point_count_abbreviated"
-    ]
-  ],
-  "hi"
-]
