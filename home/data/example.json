@@ -93,3 +93,96 @@
     "sourceLayer": "civ-assessments-v2-4b6mhv",
     "state": {}
 }
+
+
+floodedfilter
+[ "match", [ "get", "Days per year river is flooded" ], [ "0", "none" ], false, true ]
+
+education
+[ "!=", [ "get", "Education access blocked by river" ], "" ]
+
+healthcare
+[ "!=", [ "get", "Health access blocked by river" ], ""]
+
+mortality
+[ "!=", [ "get", "River crossing deaths in last 3 years" ], 0 ]
+
+width
+[ "match", [ "get", "Width of River During Flooding (m)" ], [ "0", "none" ], false, true ]
+
+[
+    "all",
+    [
+        "match",
+        [
+            "get",
+            "Days per year river is flooded"
+        ],
+        [
+            "0",
+            "none"
+        ],
+        false,
+        true
+    ],
+    [
+        "!=",
+        [
+            "get",
+            "River crossing deaths in last 3 years"
+        ],
+        0
+    ],
+    [
+        "match",
+        [
+            "get",
+            "Flag for Rejection"
+        ],
+        [
+            "No"
+        ],
+        true,
+        false
+    ]
+]
+[
+    "all",
+    [
+        "match",
+        [
+            "get",
+            "Days per year river is flooded"
+        ],
+        [
+            "0",
+            "none"
+        ],
+        false,
+        true
+    ],
+    [
+        "!=",
+        [
+            "get",
+            "River crossing deaths in last 3 years"
+        ],
+        0
+    ],
+    []
+]
+
+
+
+[
+    "all",
+    ["!=", ["get", "River crossing deaths in last 3 years"], 0],
+    ["!=", ["get", "Health access blocked by river"], ""],
+    ["match", ["get", "Flag for Rejection"], ["No"], true, false]
+]
+    ["!=", ["get", "River crossing deaths in last 3 years"], 0]
+    ["!=", ["get", "Health access blocked by river"], ""]
+    ["match", ["get", "Flag for Rejection"], ["No"], true, false]
+
+    [ "all", null, [ "!=", [ "get", "River crossing deaths in last 3 years" ], 0 ], 
+    [ "match", [ "get", "Flag for Rejection" ], [ "No" ], true, false ] ]

@@ -1,6 +1,6 @@
-const allSitesColor = "#3C884B";
+const allSitesColor = "#f5bb00";
 const daysColor = "#3670ec";
-const widthColor = "#87b5b2";
+const widthColor = "#249ea0";
 const mortalityColor = "#ac2b25";
 const healthColor = "#eb5c52";
 const educationColor = "#e29536";
@@ -101,7 +101,7 @@ export function liveDataHandler(feature) {
     }
   }
   if (feature.layer.id == "sp-primary" || feature.layer.id == "sp-college" || feature.layer.id == "gbk-primary") {
-    document.getElementById("live-data-text").style.color = "#f5bb00";
+    document.getElementById("live-data-text").style.color = "#707070";
     document.getElementById("live-data-text").innerHTML = feature.properties["Nom_Etab"] + " SCHOOL";
     // if (feature.properties["TranchCDP"] == "Tranche 1"){
     //   document.getElementById("live-data-text").style.color = "#e5308a";

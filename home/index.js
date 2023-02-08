@@ -16,65 +16,55 @@ function updateVisibilty(hide, show) {
 
 function updateInteractive(layers) {
   map.on("mousemove", "gbk-village", (e) => {
-    map.getCanvas().style.cursor = "pointer";
     if (popupVisible != true) {
       hov.liveDataHandler(e.features[0]);
     }
   });
   map.on("mouseleave", "gbk-village", () => {
-    map.getCanvas().style.cursor = "";
     if (popupVisible != true) {
       hov.reset();
     }
     // This sets feature state to hover: false when the mouse leaves.
   });
   map.on("mousemove", "sp-village", (e) => {
-    map.getCanvas().style.cursor = "pointer";
     if (popupVisible != true) {
       hov.liveDataHandler(e.features[0]);
     }
   });
   map.on("mouseleave", "sp-village", () => {
-    map.getCanvas().style.cursor = "";
     if (popupVisible != true) {
       hov.reset();
     }
     // This sets feature state to hover: false when the mouse leaves.
   });
   map.on("mousemove", "gbk-primary", (e) => {
-    map.getCanvas().style.cursor = "pointer";
     if (popupVisible != true) {
       hov.liveDataHandler(e.features[0]);
     }
   });
   map.on("mouseleave", "gbk-primary", () => {
-    map.getCanvas().style.cursor = "";
     if (popupVisible != true) {
       hov.reset();
     }
     // This sets feature state to hover: false when the mouse leaves.
   });
   map.on("mousemove", "sp-primary", (e) => {
-    map.getCanvas().style.cursor = "pointer";
     if (popupVisible != true) {
       hov.liveDataHandler(e.features[0]);
     }
   });
   map.on("mouseleave", "sp-primary", () => {
-    map.getCanvas().style.cursor = "";
     if (popupVisible != true) {
       hov.reset();
     }
     // This sets feature state to hover: false when the mouse leaves.
   });
   map.on("mousemove", "sp-college", (e) => {
-    map.getCanvas().style.cursor = "pointer";
     if (popupVisible != true) {
       hov.liveDataHandler(e.features[0]);
     }
   });
   map.on("mouseleave", "sp-primary", () => {
-    map.getCanvas().style.cursor = "";
     if (popupVisible != true) {
       hov.reset();
     }
@@ -326,11 +316,23 @@ document.getElementById("mortality-switch").addEventListener("click", () => {
 document.getElementById("reject-switch").addEventListener("click", () => {
   filterFunction();
 });
+document.getElementById("school-switch").addEventListener("click", () => {
+  if (document.getElementById("school-switch").checked) {
+    updateVisibilty(null, ["sp-primary", "sp-college", "gbk-primary", "sp-primary-points", "sp-college-points", "gbk-primary-points"]);
+  } else {
+    updateVisibilty(["sp-primary", "sp-college", "gbk-primary", "sp-primary-points", "sp-college-points", "gbk-primary-points"], null);
+  }
+});
 document.getElementById("sat-switch").addEventListener("click", () => {
   if (document.getElementById("sat-switch").checked) {
     updateVisibilty(null, ["satellite"]);
+    // update mapbox layout property
+    map.setLayoutProperty("site-pins", "icon-image", "pin1-E5EEC1");
+    map.setPaintProperty("gbk-village-text", "text-halo-color", "#000000");
+
   } else {
     updateVisibilty(["satellite"], null);
+    map.setPaintProperty("gbk-village-text", "text-halo-color", "#ffffff");
   }
 });
 document.getElementById("3D-switch").addEventListener("click", () => {
@@ -340,6 +342,8 @@ document.getElementById("3D-switch").addEventListener("click", () => {
     map.easeTo({ pitch: 0 });
   }
 });
+
+
 
 // BASIC MAPBOX STUFF
 mapboxgl.accessToken = "pk.eyJ1IjoiaGlnaGVzdHJvYWQiLCJhIjoiY2w5bjYzdXlyMDNyOTNycDh4YnB1dWV5eiJ9.vhIIq0L5So522RkERq7MNQ";
@@ -401,11 +405,11 @@ map.on("load", function () {
         visibility: "visible",
       },
       paint: {
-        "circle-color": ["step", ["get", "point_count"], "white", 5, "#F7FCFD", 20, "#D6EFED", 35, "#91D2C1", 50, "#4EB080", 110, "#1D7E3F", 175, "#04431D"],
+        "circle-color": ["step", ["get", "point_count"], "white", 5, "#F7EBC6", 20, "#F7E29E", 35, "#F7D977", 50, "#F7D04F", 110, "#F7C728", 175, "#F7BD00"],
         "circle-radius": ["step", ["get", "point_count"], 8, 5, 20, 20, 23, 35, 25, 50, 29, 110, 32, 175, 35],
         "circle-opacity": 0.7,
         "circle-stroke-width": 2,
-        "circle-stroke-color": "#137876",
+        "circle-stroke-color": "#F7BD00",
       },
     },
     "site-pins"
@@ -421,10 +425,10 @@ map.on("load", function () {
       "text-size": 12,
     },
     paint: {
-      "text-color": "#083030",
+      "text-color": "#405160",
       "text-halo-color": "white",
-      "text-halo-width": 0.6,
-      "text-halo-blur": 2,
+      "text-halo-width": 1,
+      "text-halo-blur": 1,
     },
   });
   updateVisibilty(hideList, showList);
