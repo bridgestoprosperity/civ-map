@@ -290,21 +290,21 @@ document.getElementById("education-radio").addEventListener("click", () => {
   filterFunction();
   hov.reset();
 });
-document.getElementById("host-radio").addEventListener("click", () => {
-  // TBD TURF STUFF
-  hideList = hideList.concat(showList);
-  showList = [];
-  updateVisibilty(hideList, showList);
-  // gbkPolygon = turf.polygon("./data/GBK_Host_Village_Radius.geojson")
-  // spPolygon = turf.polygon("./data/SP_Host_Village_Radius.geojson")
-  // spPolygon =
-  sitePoints = turf.points("./data/Host_Sites.geojson");
-  console.log(sitePoints);
-  console.log(gbkPolygon);
+// document.getElementById("host-radio").addEventListener("click", () => {
+//   // TBD TURF STUFF
+//   hideList = hideList.concat(showList);
+//   showList = [];
+//   updateVisibilty(hideList, showList);
+//   // gbkPolygon = turf.polygon("./data/GBK_Host_Village_Radius.geojson")
+//   // spPolygon = turf.polygon("./data/SP_Host_Village_Radius.geojson")
+//   // spPolygon =
+//   sitePoints = turf.points("./data/Host_Sites.geojson");
+//   console.log(sitePoints);
+//   console.log(gbkPolygon);
 
-  filterFunction();
-  hov.reset();
-});
+//   filterFunction();
+//   hov.reset();
+// });
 
 // SWITCHES
 document.getElementById("village-switch").addEventListener("click", () => {

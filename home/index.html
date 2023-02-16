@@ -45,46 +45,40 @@
               </fieldset>
             </form>
             <hr />
-            <h4 class="card-title">Bridge Site Visualization</h4>
+            <h4 class="card-title">Bridge Requests Visualization</h4>
             <form>
               <fieldset class="form-group">
                 <!-- <legend class="mt-4">Radio buttons</legend> -->
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="optionsRadios" id="all-radio" value="option1" checked="" />
-                  <label class="form-check-label" for="all-radio"> All identified sites </label>
+                  <label class="form-check-label" for="all-radio"> All bridge requests </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="optionsRadios" id="flood-radio" value="option2" />
-                  <label class="form-check-label" for="flood-radio"> Sites by days flooded </label>
+                  <label class="form-check-label" for="flood-radio"> Bridge requests by days flooded </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="optionsRadios" id="width-radio" value="option3" />
-                  <label class="form-check-label" for="width-radio"> Sites by flooded river width </label>
+                  <label class="form-check-label" for="width-radio"> Bridge requests by flooded river width </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="optionsRadios" id="mortality-radio" value="option4" />
-                  <label class="form-check-label" for="mortality-radio"> Sites with reported mortalities </label>
+                  <label class="form-check-label" for="mortality-radio"> Bridge requests with reported mortalities </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="optionsRadios" id="healthcare-radio" value="option5" />
-                  <label class="form-check-label" for="healthcare-radio"> Sites preventing access to healthcare </label>
+                  <label class="form-check-label" for="healthcare-radio"> Sites currently preventing healthcare access </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="optionsRadios" id="education-radio" value="option6" />
-                  <label class="form-check-label" for="education-radio"> Sites preventing access to education </label>
+                  <label class="form-check-label" for="education-radio"> Sites currently preventing education access </label>
                 </div>
-                <div class="form-check">
+                <!-- <div class="form-check">
                   <input class="form-check-input" type="radio" name="optionsRadios" id="host-radio" value="option6" disabled/>
-                  <label class="form-check-label" for="host-radio"> Sites within 5km of host Village </label>
-                </div>
-                <!-- <div class="form-check disabled">
-                  <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios6" value="option6" disabled="" />
-                  <label class="form-check-label" for="optionsRadios6"> disabled example, please ignore </label>
+                  <label class="form-check-label" for="host-radio"> Bridge requests within 5km of host village </label>
                 </div> -->
               </fieldset>
-              <!-- insert horizontal line -->
               <hr />
-
               <h4 class="card-title">Map Controls</h4>
               <form>
                 <fieldset class="form-group">
@@ -99,19 +93,19 @@
                   </div>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="village-switch" />
-                    <label class="form-check-label" for="village-switch">Show host village areas</label>
+                    <label class="form-check-label" for="village-switch">Show new school catchment area</label>
                   </div>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="reject-switch" checked />
-                    <label class="form-check-label" for="reject-switch">Show sites flagged for rejection</label>
+                    <label class="form-check-label" for="reject-switch">Include rejected bridge requests</label>
                   </div>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="school-switch" checked />
-                    <label class="form-check-label" for="school-switch">Show Schools</label>
+                    <label class="form-check-label" for="school-switch">Show schools</label>
                   </div>
                   <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="mortality-switch" />
-                    <label class="form-check-label" for="mortality-switch">Filter by sites with reported mortalities</label>
+                    <label class="form-check-label" for="mortality-switch">Only show bridge requests with reported mortalities</label>
                   </div>
                   <!-- <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDisabled" disabled>
@@ -142,7 +136,7 @@
                       <img src="./img/pin-yellow.svg" alt="legend" style="height: 20px" />
                     </div>
                     <div class="col-6">
-                      <p class="card-text">Bridge Site</p>
+                      <p class="card-text">Bridge Request</p>
                     </div>
                   </div>
                   <div class="row">
