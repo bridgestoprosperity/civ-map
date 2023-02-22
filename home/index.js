@@ -420,7 +420,7 @@ map.on("load", function () {
 
   map.addSource("sites-source", {
     type: "geojson",
-    data: "./data/civ-assessments-v5.geojson",
+    data: "./data/civ-assessments-v6.geojson",
     cluster: true,
     clusterMaxZoom: 9,
     clusterRadius: 70,
