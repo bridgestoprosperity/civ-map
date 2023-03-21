@@ -366,6 +366,11 @@ document.getElementById("sat-switch").addEventListener("click", () => {
     map.setPaintProperty("gbk-village-text", "text-halo-color", "#ffffff");
   }
 });
+document.getElementById("sat-switch").addEventListener("click", () => {
+  if (document.getElementById("sat-switch").checked) {
+    updateVisibilty(null, ["satellite"]);
+  }
+});
 document.getElementById("3D-switch").addEventListener("click", () => {
   if (document.getElementById("3D-switch").checked) {
     map.easeTo({ pitch: 70 });
@@ -420,7 +425,7 @@ map.on("load", function () {
 
   map.addSource("sites-source", {
     type: "geojson",
-    data: "./data/civ-assessments-v6.geojson",
+    data: "./data/civ-assessments-v7.geojson",
     cluster: true,
     clusterMaxZoom: 9,
     clusterRadius: 70,
@@ -429,7 +434,7 @@ map.on("load", function () {
   });
   map.addSource("m-sites-source", {
     type: "geojson",
-    data: "./data/civ-assessments-v5-mgdf.geojson",
+    data: "./data/civ-assessments-v7-mgdf.geojson",
     cluster: true,
     clusterMaxZoom: 9,
     clusterRadius: 30,
@@ -438,7 +443,7 @@ map.on("load", function () {
   });
   map.addSource("r-sites-source", {
     type: "geojson",
-    data: "./data/civ-assessments-v5-ngdf.geojson",
+    data: "./data/civ-assessments-v7-ngdf.geojson",
     cluster: true,
     clusterMaxZoom: 9,
     clusterRadius: 70,

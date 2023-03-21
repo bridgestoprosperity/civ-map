@@ -34,3 +34,6 @@ Sites with reported mortalities - icons coorelate with deaths
 Sites preventing access to healthcare - 
 Sites preventing access to education
 
+Cameron, Can we go ahead and change "Identified Sites" & "sites" to "Bridge Requests"
+"host village areas" to "New School Catchment Area". I'll discuss the others w/ Abbie & Etienne.
+
