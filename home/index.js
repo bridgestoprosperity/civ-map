@@ -386,13 +386,13 @@ document.getElementById("pop-switch").addEventListener("click", () => {
     updateVisibilty(["population"], null);
   }
 });
-document.getElementById("grid-pop-switch").addEventListener("click", () => {
-  if (document.getElementById("grid-pop-switch").checked) {
-    updateVisibilty(null, ["grid-population"]);
-  } else{
-    updateVisibilty(["grid-population"], null);
-  }
-});
+// document.getElementById("grid-pop-switch").addEventListener("click", () => {
+//   if (document.getElementById("grid-pop-switch").checked) {
+//     updateVisibilty(null, ["grid-population"]);
+//   } else{
+//     updateVisibilty(["grid-population"], null);
+//   }
+// });
 document.getElementById("3D-switch").addEventListener("click", () => {
   if (document.getElementById("3D-switch").checked) {
     map.easeTo({ pitch: 70 });
