@@ -132,7 +132,7 @@ function updateInteractive(layers) {
       }
 
       let name = "Name: " + properties["Bridge Name"];
-      let village = "Village: " + properties["Bridge Opportunity: Level 4 Government"];
+      let village = "Village: " + properties["Level 4 Government"];
       let days = "Days Flooded: " + properties["Days per year river is flooded"];
       let width = "River Width: " + properties["Width of River During Flooding (m)"] + "m";
       let mortality = "Deaths: " + properties["River crossing deaths in last 3 years"];
@@ -163,7 +163,7 @@ function updateInteractive(layers) {
     });
   }
 }
-hideList = ["site-pins", "site-dots", "days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width"];
+hideList = ["site-pins", "site-dots", "days-flooded-label", "days-flooded", "education-block", "education-block-pin", "healthcare-block", "healthcare-block-pin", "mortality", "mortality-label", "river-width-label", "river-width", "priority", "priority-circle"];
 
 function filterFunction() {
   if (showList[0] === "site-pins" || showList[0] === "site-dots") {
@@ -245,6 +245,15 @@ document.getElementById("all-radio").addEventListener("click", () => {
   hov.reset();
   // DELETE this eventually
 });
+document.getElementById("priority-radio").addEventListener("click", () => {
+  hideList = hideList.concat(showList);
+  showList = ["priority", "priority-circle"];
+  hideList = hideList.filter((item) => !showList.includes(item));
+  updateVisibilty(hideList, showList);
+  updateInteractive(showList);
+  filterFunction();
+  hov.reset();
+});
 document.getElementById("flood-radio").addEventListener("click", () => {
   hideList = hideList.concat(showList);
   showList = ["days-flooded-label", "days-flooded"];
@@ -254,6 +263,7 @@ document.getElementById("flood-radio").addEventListener("click", () => {
   filterFunction();
   hov.reset();
 });
+
 document.getElementById("width-radio").addEventListener("click", () => {
   hideList = hideList.concat(showList);
   showList = ["river-width-label", "river-width"];
@@ -361,14 +371,26 @@ document.getElementById("sat-switch").addEventListener("click", () => {
     // update mapbox layout property
     map.setLayoutProperty("site-pins", "icon-image", "pin1-E5EEC1");
     map.setPaintProperty("gbk-village-text", "text-halo-color", "#000000");
+    map.setPaintProperty("gbk-village-text", "text-color", "#ffffff");
   } else {
     updateVisibilty(["satellite"], null);
+    map.setLayoutProperty("site-pins", "icon-image", "noun-place-1279258-F7CE46")
+    map.setPaintProperty("gbk-village-text", "text-color", "#705e4c");
     map.setPaintProperty("gbk-village-text", "text-halo-color", "#ffffff");
   }
 });
-document.getElementById("sat-switch").addEventListener("click", () => {
-  if (document.getElementById("sat-switch").checked) {
-    updateVisibilty(null, ["satellite"]);
+document.getElementById("pop-switch").addEventListener("click", () => {
+  if (document.getElementById("pop-switch").checked) {
+    updateVisibilty(null, ["population"]);
+  } else{
+    updateVisibilty(["population"], null);
+  }
+});
+document.getElementById("grid-pop-switch").addEventListener("click", () => {
+  if (document.getElementById("grid-pop-switch").checked) {
+    updateVisibilty(null, ["grid-population"]);
+  } else{
+    updateVisibilty(["grid-population"], null);
   }
 });
 document.getElementById("3D-switch").addEventListener("click", () => {
@@ -565,6 +587,25 @@ map.on("load", function () {
       "text-halo-blur": 1,
     },
   });
+  // map.addLayer(
+  //   {
+  //     id: "priority-circle",
+  //     type: "circle",
+  //     source: "sites-source",
+  //     filter: [ "all", [ "match", ["get", "priority"], ["yes"], true, false ] ],
+  //     layout: {
+  //       visibility: "none",
+  //     },
+  //     paint: {
+  //       "circle-color": '#f7ce46',
+  //       "circle-radius": [ "interpolate", ["linear"], ["zoom"], 0, 10, 22, 5 ],
+  //       "circle-opacity": [ "interpolate", ["exponential", 1.7], ["zoom"], 4, 0, 8.5, 0.75 ],
+  //       "circle-stroke-width": [ "interpolate", ["linear"], ["zoom"], 10, 0, 14, 2 ],
+  //       "circle-stroke-color": "#ffc814",
+  //     },
+  //   },
+  //   "site-pins"
+  // );
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
 });
