@@ -251,7 +251,7 @@ document.getElementById("priority-radio").addEventListener("click", () => {
   hideList = hideList.filter((item) => !showList.includes(item));
   updateVisibilty(hideList, showList);
   updateInteractive(showList);
-  filterFunction();
+  // filterFunction();
   hov.reset();
 });
 document.getElementById("flood-radio").addEventListener("click", () => {
